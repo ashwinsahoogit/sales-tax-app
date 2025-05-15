@@ -1,0 +1,22 @@
+package salestax.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Receipt {
+    private final List<String> lines = new ArrayList<>();
+    private double totalTaxes = 0.0;
+    private double total = 0.0;
+
+    public void addItemLine(String line, double tax, double priceWithTax) {
+        lines.add(line);
+        totalTaxes += tax;
+        total += priceWithTax;
+    }
+
+    public void printReceipt() {
+        lines.forEach(System.out::println);
+        System.out.printf("Sales Taxes: %.2f%n", totalTaxes);
+        System.out.printf("Total: %.2f%n", total);
+    }
+}
