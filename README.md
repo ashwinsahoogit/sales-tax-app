@@ -27,7 +27,21 @@ sales-tax-app/
 │       ├── utils/
 │       │   └── Rounder.java      # Handles the special rounding rule
 │       └── Main.java             # Application entry point with test cases
-└── bin/                          # Compiled class files
+├── test/
+│   └── salestax/
+│       ├── model/
+│       │   ├── ItemTest.java     # Tests for Item class
+│       │   └── ReceiptTest.java  # Tests for Receipt class
+│       ├── tax/
+│       │   ├── BasicTaxRuleTest.java    # Tests for BasicTaxRule
+│       │   ├── ImportDutyTaxRuleTest.java # Tests for ImportDutyTaxRule
+│       │   └── TaxCalculatorTest.java   # Tests for TaxCalculator
+│       ├── utils/
+│       │   └── RounderTest.java  # Tests for Rounder utility
+│       └── SalesTaxTestSuite.java # Test suite to run all tests
+├── bin/                          # Compiled class files
+├── bin-test/                     # Compiled test class files
+└── lib/                          # JUnit libraries
 ```
 
 ## Key Components
@@ -54,6 +68,30 @@ javac -d bin src/salestax/Main.java src/salestax/model/*.java src/salestax/tax/*
 ```bash
 java -cp bin salestax.Main
 ```
+
+## Running Tests
+
+The application includes comprehensive JUnit tests for all components.
+
+### Setup JUnit
+Run the PowerShell script to download JUnit dependencies:
+```bash
+.\download-junit.ps1
+```
+
+### Run Tests
+Execute the test suite using the provided script:
+```bash
+.\run-tests.ps1
+```
+
+### Test Coverage
+The test suite includes tests for:
+- Model classes (Item, Receipt)
+- Tax calculation rules (BasicTaxRule, ImportDutyTaxRule)
+- TaxCalculator logic
+- Rounding utility
+- End-to-end tests for all sample inputs
 
 ## Sample Input and Output
 

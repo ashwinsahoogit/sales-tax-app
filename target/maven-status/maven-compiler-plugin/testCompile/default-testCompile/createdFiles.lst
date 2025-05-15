@@ -1,0 +1,7 @@
+salestax\tax\ImportDutyTaxRuleTest.class
+salestax\SalesTaxTestSuite.class
+salestax\model\ItemTest.class
+salestax\tax\BasicTaxRuleTest.class
+salestax\utils\RounderTest.class
+salestax\tax\TaxCalculatorTest.class
+salestax\model\ReceiptTest.class

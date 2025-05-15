@@ -1,0 +1,8 @@
+salestax\model\Item.class
+salestax\tax\TaxCalculator.class
+salestax\Main.class
+salestax\tax\ImportDutyTaxRule.class
+salestax\tax\TaxRule.class
+salestax\tax\BasicTaxRule.class
+salestax\model\Receipt.class
+salestax\utils\Rounder.class
