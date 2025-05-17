@@ -3,19 +3,14 @@ package salestax.model;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Before;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 public class ReceiptTest {
     
     private Receipt receipt;
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
     
     @Before
     public void setUp() {
         receipt = new Receipt();
-        System.setOut(new PrintStream(outContent));
     }
     
     @Test
@@ -25,12 +20,11 @@ public class ReceiptTest {
         double priceWithTax = 12.49;
         
         receipt.addItemLine(itemLine, tax, priceWithTax);
-        receipt.printReceipt();
         
-        String expectedOutput = itemLine + System.lineSeparator() + 
-                               "Sales Taxes: 0.00" + System.lineSeparator() + 
-                               "Total: 12.49" + System.lineSeparator();
-        assertEquals(expectedOutput, outContent.toString());
+        assertEquals(1, receipt.getLines().size());
+        assertEquals(itemLine, receipt.getLines().get(0));
+        assertEquals(0.0, receipt.getTotalTaxes(), 0.001);
+        assertEquals(12.49, receipt.getTotal(), 0.001);
     }
     
     @Test
@@ -39,27 +33,18 @@ public class ReceiptTest {
         receipt.addItemLine("1 music CD: 16.49", 1.50, 16.49);
         receipt.addItemLine("1 chocolate bar: 0.85", 0.0, 0.85);
         
-        receipt.printReceipt();
-        
-        String expectedOutput = "1 book: 12.49" + System.lineSeparator() + 
-                               "1 music CD: 16.49" + System.lineSeparator() + 
-                               "1 chocolate bar: 0.85" + System.lineSeparator() + 
-                               "Sales Taxes: 1.50" + System.lineSeparator() + 
-                               "Total: 29.83" + System.lineSeparator();
-        assertEquals(expectedOutput, outContent.toString());
+        assertEquals(3, receipt.getLines().size());
+        assertEquals("1 book: 12.49", receipt.getLines().get(0));
+        assertEquals("1 music CD: 16.49", receipt.getLines().get(1));
+        assertEquals("1 chocolate bar: 0.85", receipt.getLines().get(2));
+        assertEquals(1.50, receipt.getTotalTaxes(), 0.001);
+        assertEquals(29.83, receipt.getTotal(), 0.001);
     }
     
     @Test
     public void testEmptyReceipt() {
-        receipt.printReceipt();
-        
-        String expectedOutput = "Sales Taxes: 0.00" + System.lineSeparator() + 
-                               "Total: 0.00" + System.lineSeparator();
-        assertEquals(expectedOutput, outContent.toString());
-    }
-    
-    @org.junit.After
-    public void restoreStreams() {
-        System.setOut(originalOut);
+        assertEquals(0, receipt.getLines().size());
+        assertEquals(0.0, receipt.getTotalTaxes(), 0.001);
+        assertEquals(0.0, receipt.getTotal(), 0.001);
     }
 }

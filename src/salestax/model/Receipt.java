@@ -14,9 +14,17 @@ public class Receipt {
         total += priceWithTax;
     }
 
-    public void printReceipt() {
-        lines.forEach(System.out::println);
-        System.out.printf("Sales Taxes: %.2f%n", totalTaxes);
-        System.out.printf("Total: %.2f%n", total);
+    public List<String> getLines() {
+        return lines;
     }
+
+    public double getTotalTaxes() {
+        return totalTaxes;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+
 }

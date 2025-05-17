@@ -2,37 +2,27 @@ package salestax.tax;
 
 import salestax.model.Item;
 import salestax.model.Receipt;
-import salestax.utils.Rounder;
 
 import java.util.List;
 
 public class TaxCalculator {
-    public static Receipt calculateReceipt(List<Item> items) {
+    private final List<TaxRule> taxRules;
+
+    public TaxCalculator(List<TaxRule> taxRules) {
+        this.taxRules = taxRules;
+    }
+
+    public Receipt calculateReceipt(List<Item> items) {
         Receipt receipt = new Receipt();
-
         for (Item item : items) {
-            double basePrice = item.getPrice() * item.getQuantity();
             double tax = 0.0;
-
-            if (!item.isExempt()) {
-                tax += new BasicTaxRule().calculate(item);
+            for (TaxRule rule : taxRules) {
+                tax += rule.calculate(item);
             }
-
-            if (item.isImported()) {
-                tax += new ImportDutyTaxRule().calculate(item);
-            }
-
-            tax = Rounder.roundToNearestPoint05(tax);
-            double totalPrice = basePrice + tax;
-
-            receipt.addItemLine(
-                    String.format("%d %s: %.2f", item.getQuantity(), item.getName(), totalPrice),
-                    tax,
-                    totalPrice
-            );
+            tax = salestax.utils.Rounder.roundToNearestPoint05(tax);
+            double totalPrice = item.getPrice() * item.getQuantity() + tax;
+            receipt.addItemLine(item.toReceiptLine(totalPrice), tax, totalPrice);
         }
-
         return receipt;
     }
 }
-

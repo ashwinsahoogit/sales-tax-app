@@ -20,4 +20,9 @@ public class Item {
     public int getQuantity() { return quantity; }
     public boolean isImported() { return isImported; }
     public boolean isExempt() { return isExempt; }
+
+        public String toReceiptLine(double totalPrice) {
+        return String.format("%d %s: %.2f", quantity, name, totalPrice);
+    }
 }
+

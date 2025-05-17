@@ -7,6 +7,9 @@ public class ImportDutyTaxRule implements TaxRule {
 
     @Override
     public double calculate(Item item) {
+        if (!item.isImported()) {
+            return 0.0;
+        }
         return item.getPrice() * item.getQuantity() * RATE;
     }
 }

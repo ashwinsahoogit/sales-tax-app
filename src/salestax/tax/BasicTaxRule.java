@@ -7,6 +7,9 @@ public class BasicTaxRule implements TaxRule {
 
     @Override
     public double calculate(Item item) {
+        if (item.isExempt()) {
+            return 0.0;
+        }
         return item.getPrice() * item.getQuantity() * RATE;
     }
 }

@@ -23,7 +23,7 @@ public class ImportDutyTaxRuleTest {
         
         double tax = taxRule.calculate(item);
         
-        assertEquals(0.9495, tax, 0.001);
+        assertEquals(0.0, tax, 0.001);
     }
     
     @Test

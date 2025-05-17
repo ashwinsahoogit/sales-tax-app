@@ -23,7 +23,7 @@ public class BasicTaxRuleTest {
         
         double tax = taxRule.calculate(item);
         
-        assertEquals(1.249, tax, 0.001);
+        assertEquals(0.0, tax, 0.001);
     }
     
     @Test

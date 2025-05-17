@@ -1,35 +1,40 @@
 package salestax;
 
-import java.util.Arrays;
-import java.util.List;
-import salestax.model.Item;
-import salestax.model.Receipt;
-import salestax.tax.TaxCalculator;
+
 
 public class Main {
     public static void main(String[] args) {
-        run("Input 1", Arrays.asList(
-                new Item("book", 12.49, 1, false, true),
-                new Item("music CD", 14.99, 1, false, false),
-                new Item("chocolate bar", 0.85, 1, false, true)
-        ));
-
-        run("Input 2", Arrays.asList(
-                new Item("imported box of chocolates", 10.00, 1, true, true),
-                new Item("imported bottle of perfume", 47.50, 1, true, false)
-        ));
-
-        run("Input 3", Arrays.asList(
-                new Item("imported bottle of perfume", 27.99, 1, true, false),
-                new Item("bottle of perfume", 18.99, 1, false, false),
-                new Item("packet of headache pills", 9.75, 1, false, true),
-                new Item("box of imported chocolates", 11.25, 1, true, true)
-        ));
-    }
-
-    private static void run(String title, List<Item> items) {
-        System.out.println("\n" + title + ":");
-        Receipt receipt = TaxCalculator.calculateReceipt(items);
-        receipt.printReceipt();
+        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {
+            java.util.List<salestax.model.Item> items = new java.util.ArrayList<>();
+            System.out.println("Enter items (format: <quantity> <item name> at <price>), or 'done' to finish:");
+            while (true) {
+                String line = scanner.nextLine();
+                if (line.trim().equalsIgnoreCase("done")) break;
+                try {
+                    String[] parts = line.split(" at ");
+                    if (parts.length != 2) throw new IllegalArgumentException();
+                    double price = Double.parseDouble(parts[1].trim());
+                    String[] firstParts = parts[0].trim().split(" ", 2);
+                    int quantity = Integer.parseInt(firstParts[0]);
+                    String name = firstParts[1];
+                    boolean isImported = name.contains("imported");
+                    // crude exempt check
+                    boolean isExempt = name.contains("book") || name.contains("chocolate") || name.contains("pills");
+                    items.add(new salestax.model.Item(name, price, quantity, isImported, isExempt));
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid input. Please try again.");
+                }
+            }
+            java.util.List<salestax.tax.TaxRule> rules = new java.util.ArrayList<>();
+            rules.add(new salestax.tax.BasicTaxRule());
+            rules.add(new salestax.tax.ImportDutyTaxRule());
+            salestax.tax.TaxCalculator calculator = new salestax.tax.TaxCalculator(rules);
+            salestax.model.Receipt receipt = calculator.calculateReceipt(items);
+            for (String line : receipt.getLines()) {
+                System.out.println(line);
+            }
+            System.out.printf("Sales Taxes: %.2f\n", receipt.getTotalTaxes());
+            System.out.printf("Total: %.2f\n", receipt.getTotal());
+        }
     }
 }
