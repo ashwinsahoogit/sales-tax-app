@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: salestax.utils.RounderTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in salestax.utils.RounderTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in salestax.utils.RounderTest
