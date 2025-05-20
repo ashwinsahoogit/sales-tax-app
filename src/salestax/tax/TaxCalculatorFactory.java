@@ -3,10 +3,7 @@ package salestax.tax;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Factory for creating TaxCalculator instances with appropriate tax rules.
- * This follows the Factory pattern to encapsulate the creation logic.
- */
+
 public class TaxCalculatorFactory {
     
     /**

@@ -1,6 +1,7 @@
 package salestax.model;
 
 import java.util.Objects;
+
 import salestax.constants.TaxConstants;
 
 public class Item {
@@ -27,9 +28,6 @@ public class Item {
         this.category = category;
     }
     
-    /**
-     * Backward-compatible constructor that accepts isExempt boolean instead of ProductCategory
-     */
     public Item(String name, double price, int quantity, boolean isImported, boolean isExempt) {
         this(name, price, quantity, isImported, 
              isExempt ? ProductCategory.fromName(name) : ProductCategory.OTHER);
@@ -52,16 +50,10 @@ public class Item {
         return price * quantity;
     }
 
-    /**
-     * Returns the total price for this item including tax.
-     */
     public double getTotalPriceWithTax(double tax) {
         return getTotalPrice() + tax;
     }
 
-    /**
-     * Returns true if the item is taxable (not exempt).
-     */
     public boolean isTaxable() {
         return category == ProductCategory.OTHER;
     }
